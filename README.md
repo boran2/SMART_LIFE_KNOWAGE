@@ -2,6 +2,7 @@
 
 ## MARIA DB - connection and creating smart_life database
 download MARIADB 10.9
+
 from maria db command prompt run zipped mariaDB_dump.sql
 
 ## KNOWAGE data source
