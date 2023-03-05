@@ -33,3 +33,6 @@ SELECT a.id_sensor as 'SENSOR_ID', b.place as 'PLACE', b.gps as 'GPS', DATE_FORM
 
 ## KNOWAGE dataset (created by query) - data from sensors counting vehicles, ordered by start_time for day 13.12. in 15 minutes intervals
 SELECT a.id_sensor as 'SENSOR_ID', b.place as 'PLACE', b.gps as 'GPS', DATE_FORMAT(a.start_time, '%D %b %H:%i') as 'START_TIME', DATE_FORMAT(a.end_time, '%D %b %H:%i') as 'END_TIME', a.counting_type as 'COUNTING_TYPE', a.result as 'RESULT' from vehicles a inner join sensors b on b.id_sensor = a.id_sensor where a.start_time between '2022-12-13 00:00:00' and '2022-12-13 23:00:00' order by a.start_time asc;
+
+## KNOWAGE dataset (created by query) - data from sensors counting vehicles, ordered by start_time for day 13.12. in 60 minutes intervals
+SELECT a.id_sensor as 'SENSOR_ID', b.place as 'PLACE', b.gps as 'GPS', DATE_FORMAT(FROM_UNIXTIME(ROUND(UNIX_TIMESTAMP(a.start_time)/3600)*3600), '%D %b %H:%i') as 'START_TIME', a.counting_type as 'COUNTING_TYPE', sum(a.result) as 'RESULT' from vehicles a inner join sensors b on b.id_sensor = a.id_sensor where a.start_time between '2022-12-13 00:00:00' and '2022-12-13 23:00:00' group by a.counting_type, DATE_FORMAT(FROM_UNIXTIME(ROUND(UNIX_TIMESTAMP(a.start_time)/3600)*3600), '%D %b %H:%i') order by a.start_time asc;
